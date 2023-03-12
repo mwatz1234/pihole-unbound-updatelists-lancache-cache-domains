@@ -30,18 +30,18 @@ cp `find $GITSYNCDIR -name "*.txt" -o -name cache_domains.json` $TEMPDIR
 
 # Copy the create-dnsmasq.sh script to our temp directory
 mkdir $TEMPDIR/scripts/ && \
-  cp $GITSYNCDIR/scripts/create-dnsmasq.sh $TEMPDIR/scripts/ && \
-  chmod +x $TEMPDIR/scripts/create-dnsmasq.sh
+  cp $GITSYNCDIR/scripts/create-unbound.sh $TEMPDIR/scripts/ && \
+  chmod +x $TEMPDIR/scripts/create-unbound.sh
 
 # Copy the config over
 cp $DNSMASQCONFIG $TEMPDIR/scripts/
 
 # Generate the dnsmasq files with the script
 cd $TEMPDIR/scripts/ && \
-  bash ./create-dnsmasq.sh > /dev/null 2>&1
+  bash ./create-unbound.sh > /dev/null 2>&1
 
 # Copy the dnsmasq files
-cp -r $TEMPDIR/scripts/output/dnsmasq/*.conf /etc/dnsmasq.d/
+cp -r $TEMPDIR/scripts/output/dnsmasq/*.conf etc/unbound/unbound.conf.d/
 
 # Restart pihole-FTL
 sudo service pihole-FTL restart
